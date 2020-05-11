@@ -56,21 +56,24 @@ void solve(Matrix<set<string>>& m, string input) {
 
 	int n = input.length();
 
-	for (int i = 0; i <= n; i++) {
-		for (int j = 0; j <= n - i; j++) {
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j <= n - i - 1; j++) {
 			
 			string target = input.substr(i, i + j + 1);
-			set<string> ss;
 			
 			if (target.length() == 1) {
 				m[i][j] = search(target);
 			} else {
 
-				for (int x = 1; x < target.length() - 1; x++) {
+				set<string> ss;
+
+				for (int x = 1; x <= i; x++) {
 					string left = target.substr(0, x);
 					string right = target.substr(x, target.length());
-					ss.merge(ss,cartesian(m[i][j-x]))
+					ss.merge(ss, cartesian(m[i][x - 1], m[x - 1][j - x]));
 				}
+
+				m[i][j] = search(ss);
 
 			}
 		}
